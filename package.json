@@ -1,0 +1,10 @@
+{
+  "name": "willchat-socket",
+  "version": "1.0.0",
+  "description": "This is a websocket to connect with willchat-api",
+  "main": "server.ts",
+  "repository": "https://github.com/Williancc1557/willchat-socket",
+  "author": "Willian Cavalcanti Coelho <willian.cavalcanti@jala.university>",
+  "license": "MIT",
+  "private": false
+}
