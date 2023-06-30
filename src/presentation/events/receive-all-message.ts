@@ -11,6 +11,6 @@ export class ReceiveAllMessagesEvent implements Event {
       key: data.key,
     });
 
-    socket.emit("ReceiveAllMessages", data);
+    socket.emit("ReceiveMessages", data);
   }
 }
