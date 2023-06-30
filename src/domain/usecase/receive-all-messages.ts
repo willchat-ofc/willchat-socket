@@ -4,5 +4,5 @@ export interface ReceiveAllMessagesInput {
 }
 
 export interface ReceiveAllMessages {
-  get: (data: ReceiveAllMessagesInput) => Array<any>;
+  get: (data: ReceiveAllMessagesInput) => Promise<Array<any>>;
 }

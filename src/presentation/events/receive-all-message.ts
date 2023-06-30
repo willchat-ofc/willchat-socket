@@ -5,7 +5,12 @@ import type { ReceiveAllMessages } from "../../domain/usecase/receive-all-messag
 export class ReceiveAllMessagesEvent implements Event {
   public constructor(private readonly receiveAllMessage: ReceiveAllMessages) {}
 
-  public handle(socket: Socket, data: EventData): void {
+  public async handle(socket: Socket, data: EventData): Promise<void> {
+    await this.receiveAllMessage.get({
+      accessToken: data.accessToken,
+      key: data.key,
+    });
+
     socket.emit("ReceiveAllMessages", data);
   }
 }

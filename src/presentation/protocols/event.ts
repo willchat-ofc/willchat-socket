@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import type { Socket } from "socket.io";
 
 export interface EventData {
   key: string;
@@ -6,5 +6,5 @@ export interface EventData {
 }
 
 export interface Event {
-  handle: (socket: Socket, data: EventData) => void;
+  handle: (socket: Socket, data: EventData) => Promise<void>;
 }
