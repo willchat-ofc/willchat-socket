@@ -1,8 +1,6 @@
-import { Socket } from "socket.io";
-import { mock } from "ts-mockito";
-
-const mockSocket: Socket = mock(Socket);
-
-mockSocket.emit = jest.fn();
-
-export { mockSocket };
+export const socketMock = {
+  emit: jest.fn(),
+  broadcast: {
+    emit: jest.fn(),
+  },
+} as any;

@@ -3,8 +3,7 @@ import type {
   ReceiveAllMessagesInput,
 } from "../../../src/domain/usecase/receive-all-messages";
 import { ReceiveAllMessagesEvent } from "../../../src/presentation/events/receive-all-message";
-import type { EventData } from "../../../src/presentation/protocols/event";
-import { mockSocket } from "../../mocks/socket";
+import { socketMock } from "../../mocks/socket";
 
 const makeDbReceiveAllMessageStub = (): ReceiveAllMessages => {
   class DbReceiveAllMessages implements ReceiveAllMessages {
@@ -12,7 +11,7 @@ const makeDbReceiveAllMessageStub = (): ReceiveAllMessages => {
     public async get(data: ReceiveAllMessagesInput): Promise<Array<any>> {
       return [
         {
-          id: "1",
+          id: "fake-id",
           message: "fake-message",
           userId: "fake-user-id",
           userName: "fake-user-name",
@@ -34,7 +33,7 @@ const makeSut = () => {
   };
 };
 
-const fakeData: EventData = {
+const fakeData: any = {
   key: "fake-key",
 };
 
@@ -43,7 +42,7 @@ describe("ReceiveAllMessage Event", () => {
     const { sut, dbReceiveAllMessage } = makeSut();
     const getSpy = jest.spyOn(dbReceiveAllMessage, "get");
 
-    await sut.handle(mockSocket, fakeData);
+    await sut.handle(socketMock, fakeData);
 
     expect(getSpy).toBeCalledWith({
       key: fakeData.key,
@@ -53,12 +52,12 @@ describe("ReceiveAllMessage Event", () => {
   test("should call emit with correct values", async () => {
     const { sut, dbReceiveAllMessage } = makeSut();
 
-    await sut.handle(mockSocket, fakeData);
+    await sut.handle(socketMock, fakeData);
 
     const response = await dbReceiveAllMessage.get({
       key: fakeData.key,
     });
 
-    expect(mockSocket.emit).toBeCalledWith("ReceiveMessages", response);
+    expect(socketMock.emit).toHaveBeenCalledWith("ReceiveMessages", response);
   });
 });
