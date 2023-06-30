@@ -1,5 +1,4 @@
 export interface ReceiveAllMessagesInput {
-  accessToken: string;
   key: string;
 }
 

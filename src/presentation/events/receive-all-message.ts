@@ -6,11 +6,10 @@ export class ReceiveAllMessagesEvent implements Event {
   public constructor(private readonly receiveAllMessage: ReceiveAllMessages) {}
 
   public async handle(socket: Socket, data: EventData): Promise<void> {
-    await this.receiveAllMessage.get({
-      accessToken: data.accessToken,
+    const response = await this.receiveAllMessage.get({
       key: data.key,
     });
 
-    socket.emit("ReceiveMessages", data);
+    socket.emit("ReceiveMessages", response);
   }
 }
