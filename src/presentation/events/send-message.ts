@@ -13,8 +13,6 @@ export class SendMessageEvent implements Event {
       userName: data.userName,
     });
 
-    console.log(socket.broadcast);
-
     socket.broadcast.emit("ReceiveMessages", data);
   }
 }
