@@ -2,7 +2,7 @@ import type { Socket } from "socket.io";
 
 export interface EventData {
   key: string;
-  accessToken: string;
+  accessToken?: string;
 }
 
 export interface Event {
