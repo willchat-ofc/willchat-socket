@@ -1,0 +1,4 @@
+{
+  "root": true,
+  "extends": ["@techmmunity/eslint-config/typescript"]
+}
