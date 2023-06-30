@@ -39,10 +39,9 @@ describe("SendMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(socketMock.broadcast.emit).toBeCalledWith(
-      "ReceiveMessages",
-      fakeData
-    );
+    expect(socketMock.broadcast.emit).toBeCalledWith("ReceiveMessages", [
+      fakeData,
+    ]);
   });
 
   test("should call sendMessages with correct values", async () => {
