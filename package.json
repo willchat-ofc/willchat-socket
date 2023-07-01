@@ -39,6 +39,7 @@
     "pino-pretty": "^10.0.0",
     "rate-limiter-flexible": "^2.4.1",
     "socket.io": "^4.7.1",
+    "ts-mockito": "^2.6.1",
     "ts-node-dev": "^2.0.0"
   }
 }

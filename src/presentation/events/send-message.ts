@@ -15,7 +15,7 @@ export class SendMessageEvent implements Event {
         userName: data.userName,
       });
 
-      socket.broadcast.emit("ReceiveMessages", [data]);
+      socket.broadcast.to(data.key).emit("ReceiveMessages", [data]);
     } catch (err) {
       logger.fatal(err);
     }
