@@ -17,7 +17,8 @@ export class SendMessageEvent implements Event {
 
       socket.broadcast.to(data.key).emit("ReceiveMessages", [data]);
     } catch (err) {
-      logger.fatal(err);
+      logger.error(err, "SendMessage Event");
+      socket.emit("Error", err);
     }
   }
 }
