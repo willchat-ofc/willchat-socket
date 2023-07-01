@@ -1,19 +1,13 @@
-import type {
-  SendMessage,
-  SendMessageInput,
-} from "../../../src/domain/usecase/send-message";
+import type { SendMessage } from "../../../src/domain/usecase/send-message";
 import { SendMessageEvent } from "../../../src/presentation/events/send-message";
 import { socketMock } from "../../mocks/socket";
 
 const makeSendMessageStub = () => {
-  class DbSendMessage implements SendMessage {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public send(data: SendMessageInput): Promise<void> {
-      return;
-    }
-  }
+  const sendMessageStub: SendMessage = {
+    send: jest.fn(),
+  };
 
-  return new DbSendMessage();
+  return sendMessageStub;
 };
 
 const makeSut = () => {
@@ -48,9 +42,8 @@ describe("SendMessage Event", () => {
   test("should call sendMessages with correct values", async () => {
     const { sut, sendMessage } = makeSut();
 
-    const sendSpy = jest.spyOn(sendMessage, "send");
     await sut.handle(socketMock, fakeData);
 
-    expect(sendSpy).toBeCalledWith(fakeData);
+    expect(sendMessage.send).toBeCalledWith(fakeData);
   });
 });
