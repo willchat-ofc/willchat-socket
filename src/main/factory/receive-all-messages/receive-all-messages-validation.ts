@@ -2,7 +2,7 @@ import { RequiredFieldValidation } from "../../../presentation/helpers/validator
 import { ValidationComposite } from "../../../presentation/helpers/validators/validation-composite";
 import type { Validation } from "../../../presentation/protocols/validation";
 
-export const makeJoinGroupValidation = (): ValidationComposite => {
+export const makeReceiveAllMessageValidation = (): ValidationComposite => {
   const validations: Array<Validation> = [];
 
   for (const field of ["key"]) {

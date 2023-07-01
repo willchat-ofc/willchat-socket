@@ -2,7 +2,7 @@ import type {
   ReceiveAllMessages,
   ReceiveAllMessagesInput,
 } from "../../../src/domain/usecase/receive-all-messages";
-import { ReceiveAllMessagesEvent } from "../../../src/presentation/events/receive-all-message";
+import { ReceiveAllMessagesEvent } from "../../../src/presentation/events/receive-all-messages";
 import type { Validation } from "../../../src/presentation/protocols/validation";
 import { socketMock } from "../../mocks/socket";
 
