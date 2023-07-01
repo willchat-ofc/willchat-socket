@@ -69,6 +69,6 @@ describe("ReceiveAllMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(socketMock.emit).toBeCalledWith("Error", err);
+    expect(socketMock.emit).toBeCalledWith("Error", err.message);
   });
 });
