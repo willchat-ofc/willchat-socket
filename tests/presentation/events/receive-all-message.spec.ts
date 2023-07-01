@@ -3,7 +3,16 @@ import type {
   ReceiveAllMessagesInput,
 } from "../../../src/domain/usecase/receive-all-messages";
 import { ReceiveAllMessagesEvent } from "../../../src/presentation/events/receive-all-message";
+import type { Validation } from "../../../src/presentation/protocols/validation";
 import { socketMock } from "../../mocks/socket";
+
+const makeValidatorStub = (): Validation => {
+  const validatorStub: Validation = {
+    validate: jest.fn(),
+  };
+
+  return validatorStub;
+};
 
 const makeDbReceiveAllMessageStub = (): ReceiveAllMessages => {
   class DbReceiveAllMessages implements ReceiveAllMessages {
@@ -25,11 +34,13 @@ const makeDbReceiveAllMessageStub = (): ReceiveAllMessages => {
 
 const makeSut = () => {
   const dbReceiveAllMessage = makeDbReceiveAllMessageStub();
-  const sut = new ReceiveAllMessagesEvent(dbReceiveAllMessage);
+  const validator = makeValidatorStub();
+  const sut = new ReceiveAllMessagesEvent(dbReceiveAllMessage, validator);
 
   return {
     sut,
     dbReceiveAllMessage,
+    validator,
   };
 };
 
@@ -38,6 +49,22 @@ const fakeData: any = {
 };
 
 describe("ReceiveAllMessage Event", () => {
+  test("should return an Error if validator returns an Error", async () => {
+    const { sut, validator } = makeSut();
+    jest.spyOn(validator, "validate").mockReturnValue(new Error());
+
+    await sut.handle(socketMock, fakeData);
+
+    expect(socketMock.emit).toBeCalledWith("Error", new Error().message);
+  });
+
+  test("should call validator with correct values", async () => {
+    const { sut, validator } = makeSut();
+    await sut.handle(socketMock, fakeData);
+
+    expect(validator.validate).toBeCalledWith(fakeData);
+  });
+
   test("should call receiveAllMessage with correct values", async () => {
     const { sut, dbReceiveAllMessage } = makeSut();
     const getSpy = jest.spyOn(dbReceiveAllMessage, "get");
