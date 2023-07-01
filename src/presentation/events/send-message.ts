@@ -2,6 +2,7 @@ import type { Socket } from "socket.io";
 import type { Event } from "../protocols/event";
 import type { SendMessage } from "../../domain/usecase/send-message";
 import { logger } from "../../utils/logger";
+import { emitError } from "../helpers/error";
 
 export class SendMessageEvent implements Event {
   public constructor(private readonly sendMessage: SendMessage) {}
@@ -18,7 +19,7 @@ export class SendMessageEvent implements Event {
       socket.broadcast.to(data.key).emit("ReceiveMessages", [data]);
     } catch (err) {
       logger.error(err, "SendMessage Event");
-      socket.emit("Error", err);
+      emitError(socket, err);
     }
   }
 }
