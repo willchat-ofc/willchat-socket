@@ -1,6 +1,6 @@
 import type { Server, Socket } from "socket.io";
 import { makeReceiveAllMessageEvent } from "../factory/receive-all-messages/receive-all-messages";
-import { makeSendMessageEvent } from "../factory/send-message";
+import { makeSendMessageEvent } from "../factory/send-message/send-message";
 import { makeJoinGroupEvent } from "../factory/join-group/join-group";
 
 export const makeEvents = (server: Server) => {
