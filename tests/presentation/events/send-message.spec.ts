@@ -1,6 +1,15 @@
 import type { SendMessage } from "../../../src/domain/usecase/send-message";
 import { SendMessageEvent } from "../../../src/presentation/events/send-message";
+import type { Validation } from "../../../src/presentation/protocols/validation";
 import { socketMock } from "../../mocks/socket";
+
+const makeValidatorStub = (): Validation => {
+  const validatorStub: Validation = {
+    validate: jest.fn(),
+  };
+
+  return validatorStub;
+};
 
 const makeSendMessageStub = () => {
   const sendMessageStub: SendMessage = {
@@ -11,12 +20,14 @@ const makeSendMessageStub = () => {
 };
 
 const makeSut = () => {
+  const validator = makeValidatorStub();
   const sendMessage = makeSendMessageStub();
-  const sut = new SendMessageEvent(sendMessage);
+  const sut = new SendMessageEvent(validator, sendMessage);
 
   return {
     sut,
     sendMessage,
+    validator,
   };
 };
 
@@ -28,6 +39,22 @@ const fakeData = {
 };
 
 describe("SendMessage Event", () => {
+  test("should return an Error if validator returns an Error", async () => {
+    const { sut, validator } = makeSut();
+    jest.spyOn(validator, "validate").mockReturnValue(new Error());
+
+    await sut.handle(socketMock, fakeData);
+
+    expect(socketMock.emit).toBeCalledWith("Error", new Error().message);
+  });
+
+  test("should call validator with correct values", async () => {
+    const { sut, validator } = makeSut();
+    await sut.handle(socketMock, fakeData);
+
+    expect(validator.validate).toBeCalledWith(fakeData);
+  });
+
   test("should call socket.emit with correct values", async () => {
     const { sut } = makeSut();
 

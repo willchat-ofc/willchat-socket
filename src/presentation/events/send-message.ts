@@ -3,12 +3,19 @@ import type { Event } from "../protocols/event";
 import type { SendMessage } from "../../domain/usecase/send-message";
 import { logger } from "../../utils/logger";
 import { emitError } from "../helpers/error";
+import type { Validation } from "../protocols/validation";
 
 export class SendMessageEvent implements Event {
-  public constructor(private readonly sendMessage: SendMessage) {}
+  public constructor(
+    private readonly validator: Validation,
+    private readonly sendMessage: SendMessage
+  ) {}
 
   public async handle(socket: Socket, data: any): Promise<void> {
     try {
+      const error = this.validator.validate(data);
+      if (error) return emitError(socket, error);
+
       await this.sendMessage.send({
         key: data.key,
         message: data.message,
