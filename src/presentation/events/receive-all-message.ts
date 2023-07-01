@@ -14,7 +14,8 @@ export class ReceiveAllMessagesEvent implements Event {
 
       socket.emit("ReceiveMessages", response);
     } catch (err) {
-      logger.fatal(err);
+      logger.error(err, "ReceiveAllMessages Event");
+      socket.emit("Error", err);
     }
   }
 }

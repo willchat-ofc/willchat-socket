@@ -60,4 +60,15 @@ describe("ReceiveAllMessage Event", () => {
 
     expect(socketMock.emit).toHaveBeenCalledWith("ReceiveMessages", response);
   });
+
+  test("should emit an error when throws", async () => {
+    const { sut, dbReceiveAllMessage } = makeSut();
+
+    const err = new Error();
+    jest.spyOn(dbReceiveAllMessage, "get").mockRejectedValue(new Error());
+
+    await sut.handle(socketMock, fakeData);
+
+    expect(socketMock.emit).toBeCalledWith("Error", err);
+  });
 });
