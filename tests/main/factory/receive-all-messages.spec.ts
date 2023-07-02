@@ -5,7 +5,7 @@ import type { Validation } from "../../../src/presentation/protocols/validation"
 
 jest.mock("../../../src/presentation/helpers/validators/validation-composite");
 
-describe("DeleteKey Validation", () => {
+describe("ReceiveAllMessages Validation", () => {
   test("should call Validation composite with valid Validations", () => {
     makeReceiveAllMessageValidation();
     const validations: Array<Validation> = [];
