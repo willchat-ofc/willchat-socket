@@ -5,9 +5,10 @@ import { makeEvents } from "./events";
 import { env } from "./env";
 import http from "http";
 import fs from "fs";
+import { rateLimitMiddleware } from "../middlewares/rate-limit";
 
 const app = express();
-
+app.use(rateLimitMiddleware);
 let server: any;
 
 if (env.cert) {
