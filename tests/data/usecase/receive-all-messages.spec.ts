@@ -14,6 +14,8 @@ const makeSut = () => {
 
 const fakeData: ReceiveAllMessagesInput = {
   key: "fake-key",
+  limit: 10,
+  offset: 0,
 };
 
 const fakeResponse = {
@@ -35,7 +37,12 @@ describe("ReceiveAllMessages Database", () => {
 
     await sut.get(fakeData);
 
-    expect(api.get).toBeCalledWith(`/key/message/${fakeData.key}`);
+    expect(api.get).toBeCalledWith(`/key/message/${fakeData.key}`, {
+      headers: {
+        limit: fakeData.limit,
+        offset: fakeData.offset,
+      },
+    });
   });
 
   test("should returns if success a list of messages", async () => {

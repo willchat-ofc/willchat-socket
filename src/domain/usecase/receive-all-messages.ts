@@ -1,5 +1,7 @@
 export interface ReceiveAllMessagesInput {
   key: string;
+  limit?: number;
+  offset?: number;
 }
 
 export interface ReceiveAllMessages {

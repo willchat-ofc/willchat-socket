@@ -18,6 +18,8 @@ export class ReceiveAllMessagesEvent implements Event {
 
       const response = await this.receiveAllMessage.get({
         key: data.key,
+        limit: data.limit,
+        offset: data.offset,
       });
 
       socket.emit("ReceiveMessages", response);

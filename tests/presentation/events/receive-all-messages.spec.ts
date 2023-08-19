@@ -15,21 +15,16 @@ const makeValidatorStub = (): Validation => {
 };
 
 const makeDbReceiveAllMessageStub = (): ReceiveAllMessages => {
-  class DbReceiveAllMessages implements ReceiveAllMessages {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public async get(data: ReceiveAllMessagesInput): Promise<Array<any>> {
-      return [
-        {
-          id: "fake-id",
-          message: "fake-message",
-          userId: "fake-user-id",
-          userName: "fake-user-name",
-        },
-      ];
-    }
-  }
+  const dbReceiveAllMessagesStub: ReceiveAllMessages = {
+    get: jest.fn().mockReturnValue({
+      id: "fake-id",
+      message: "fake-message",
+      userId: "fake-user-id",
+      userName: "fake-user-name",
+    }),
+  };
 
-  return new DbReceiveAllMessages();
+  return dbReceiveAllMessagesStub;
 };
 
 const makeSut = () => {
@@ -44,8 +39,10 @@ const makeSut = () => {
   };
 };
 
-const fakeData: any = {
+const fakeData: ReceiveAllMessagesInput = {
   key: "fake-key",
+  limit: 10,
+  offset: 0,
 };
 
 describe("ReceiveAllMessage Event", () => {
@@ -71,9 +68,7 @@ describe("ReceiveAllMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(getSpy).toBeCalledWith({
-      key: fakeData.key,
-    });
+    expect(getSpy).toBeCalledWith(fakeData);
   });
 
   test("should call emit with correct values", async () => {
@@ -81,9 +76,7 @@ describe("ReceiveAllMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    const response = await dbReceiveAllMessage.get({
-      key: fakeData.key,
-    });
+    const response = await dbReceiveAllMessage.get(fakeData);
 
     expect(socketMock.emit).toHaveBeenCalledWith("ReceiveMessages", response);
   });
