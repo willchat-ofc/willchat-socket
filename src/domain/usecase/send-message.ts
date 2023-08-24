@@ -6,5 +6,5 @@ export interface SendMessageInput {
 }
 
 export interface SendMessage {
-  send: (data: SendMessageInput) => Promise<void>;
+  send: (data: SendMessageInput) => Promise<any>;
 }

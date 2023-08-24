@@ -6,6 +6,7 @@ import { api } from "../../main/config/axios";
 
 export class DbSendMessage implements SendMessage {
   public async send(data: SendMessageInput): Promise<void> {
-    await api.post("/key/message", data);
+    const response = await api.post("/key/message", data);
+    return response.data;
   }
 }

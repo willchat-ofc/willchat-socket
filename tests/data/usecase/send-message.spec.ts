@@ -23,12 +23,19 @@ describe("SendMessage Database", () => {
   let postSpy: jest.SpyInstance;
 
   beforeAll(() => {
-    postSpy = jest.spyOn(api, "post");
+    postSpy = jest.spyOn(api, "post").mockResolvedValue({
+      data: {
+        createdAt: "2023-08-18T20:32:06.576Z",
+        id: "27c6a8b3-289b-456a-804b-7adc431a6e86",
+        message: "a",
+        userId: "123",
+        userName: "Willian",
+      },
+    });
   });
 
   test("should call api with correct values", async () => {
     const { sut } = makeSut();
-
     await sut.send(fakeData);
 
     expect(postSpy).toBeCalledWith("/key/message", fakeData);

@@ -13,7 +13,13 @@ const makeValidatorStub = (): Validation => {
 
 const makeSendMessageStub = () => {
   const sendMessageStub: SendMessage = {
-    send: jest.fn(),
+    send: jest.fn().mockResolvedValue({
+      createdAt: "2023-08-18T20:32:06.576Z",
+      id: "27c6a8b3-289b-456a-804b-7adc431a6e86",
+      message: "a",
+      userId: "123",
+      userName: "Willian",
+    }),
   };
 
   return sendMessageStub;
@@ -61,9 +67,6 @@ describe("SendMessage Event", () => {
     await sut.handle(socketMock, fakeData);
 
     expect(socketMock.broadcast.to).toBeCalledWith(fakeData.key);
-    /*     expect(socketMock.broadcast.to(fakeData.key).emit).toBeCalledWith(
-      fakeData.key
-    ); */
   });
 
   test("should call sendMessages with correct values", async () => {
