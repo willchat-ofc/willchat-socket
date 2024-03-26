@@ -38,6 +38,6 @@ describe("SendMessage Database", () => {
     const { sut } = makeSut();
     await sut.send(fakeData);
 
-    expect(postSpy).toBeCalledWith("/key/message", fakeData);
+    expect(postSpy).toHaveBeenCalledWith("/key/message", fakeData);
   });
 });

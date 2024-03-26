@@ -37,7 +37,7 @@ describe("ReceiveAllMessages Database", () => {
 
     await sut.get(fakeData);
 
-    expect(api.get).toBeCalledWith(`/key/message/${fakeData.key}`, {
+    expect(api.get).toHaveBeenCalledWith(`/key/message/${fakeData.key}`, {
       headers: {
         limit: fakeData.limit,
         offset: fakeData.offset,

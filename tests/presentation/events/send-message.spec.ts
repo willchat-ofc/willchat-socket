@@ -51,14 +51,14 @@ describe("SendMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(socketMock.emit).toBeCalledWith("Error", new Error().message);
+    expect(socketMock.emit).toHaveBeenCalledWith("Error", new Error().message);
   });
 
   test("should call validator with correct values", async () => {
     const { sut, validator } = makeSut();
     await sut.handle(socketMock, fakeData);
 
-    expect(validator.validate).toBeCalledWith(fakeData);
+    expect(validator.validate).toHaveBeenCalledWith(fakeData);
   });
 
   test("should call socket.emit with correct values", async () => {
@@ -66,7 +66,7 @@ describe("SendMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(socketMock.broadcast.to).toBeCalledWith(fakeData.key);
+    expect(socketMock.broadcast.to).toHaveBeenCalledWith(fakeData.key);
   });
 
   test("should call sendMessages with correct values", async () => {
@@ -74,7 +74,7 @@ describe("SendMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(sendMessage.send).toBeCalledWith(fakeData);
+    expect(sendMessage.send).toHaveBeenCalledWith(fakeData);
   });
 
   test("should emit an error when throws", async () => {
@@ -85,6 +85,6 @@ describe("SendMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(socketMock.emit).toBeCalledWith("Error", err.message);
+    expect(socketMock.emit).toHaveBeenCalledWith("Error", err.message);
   });
 });

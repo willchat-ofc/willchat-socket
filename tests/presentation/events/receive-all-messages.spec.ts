@@ -52,14 +52,14 @@ describe("ReceiveAllMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(socketMock.emit).toBeCalledWith("Error", new Error().message);
+    expect(socketMock.emit).toHaveBeenCalledWith("Error", new Error().message);
   });
 
   test("should call validator with correct values", async () => {
     const { sut, validator } = makeSut();
     await sut.handle(socketMock, fakeData);
 
-    expect(validator.validate).toBeCalledWith(fakeData);
+    expect(validator.validate).toHaveBeenCalledWith(fakeData);
   });
 
   test("should call receiveAllMessage with correct values", async () => {
@@ -68,7 +68,7 @@ describe("ReceiveAllMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(getSpy).toBeCalledWith(fakeData);
+    expect(getSpy).toHaveBeenCalledWith(fakeData);
   });
 
   test("should call emit with correct values", async () => {
@@ -89,6 +89,6 @@ describe("ReceiveAllMessage Event", () => {
 
     await sut.handle(socketMock, fakeData);
 
-    expect(socketMock.emit).toBeCalledWith("Error", err.message);
+    expect(socketMock.emit).toHaveBeenCalledWith("Error", err.message);
   });
 });
