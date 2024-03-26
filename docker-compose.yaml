@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  api:
+    env_file:
+      - .env.docker
+    build:
+      context: "."
+      dockerfile: Dockerfile
+    container_name: willchat-socket
+    command: yarn dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/app/
+    networks:
+      - willchat-socket_network
+
+volumes:
+  postgresql:
+
+networks:
+  willchat-socket_network:
+    driver: bridge
