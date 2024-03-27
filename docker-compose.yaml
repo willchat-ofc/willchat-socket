@@ -10,7 +10,7 @@ services:
     container_name: willchat-socket
     command: yarn dev
     ports:
-      - "8080:8080"
+      - "${PORT}:${PORT}"
     volumes:
       - ./:/app/
     networks:
