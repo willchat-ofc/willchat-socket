@@ -15,12 +15,13 @@ export class ReceiveAllMessagesEvent implements Event {
     try {
       const error = this.validator.validate(data);
       if (error) return emitError(socket, error);
+      console.log(data);
 
       const response = await this.receiveAllMessage.get({
         key: data.key,
         limit: data.limit,
         offset: data.offset,
-      });
+      })
 
       socket.emit("ReceiveMessages", response);
     } catch (err) {
